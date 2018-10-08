@@ -23,10 +23,28 @@ exports.create = (text, callback) => {
 
 exports.readAll = (callback) => {
   var data = [];
-  _.each(items, (text, id) => {
-    data.push({ id, text });
+  // _.each(items, (text, id) => {
+  //   data.push({ id, text });
+  // });
+  fs.readdir(exports.dataDir, (err, files) => {
+    if (err) {
+      throw ('directory not found [readAll]');
+    } else {
+      _.each(files, (file) => {
+        var id = file.split('.')[0];
+        // fs.readFile(file, (err, text) => {
+        //   if (err) {
+        //     throw ('failed to read file [readAll] ' + file);
+        //   } else {
+        //     data.push({id, text});
+        //   }
+        // });
+        data.push({id, text: id});
+      }); 
+      callback(null, data);
+    }
   });
-  callback(null, data);
+  // 
 };
 
 exports.readOne = (id, callback) => {
