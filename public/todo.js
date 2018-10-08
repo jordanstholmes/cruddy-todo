@@ -6,7 +6,7 @@ window.Todo = {
   url: '/todo',
 
   // Create (Crud) -- collection
-  create: function(text, callback) {
+  create: function(text, callback) { //callback: addTodo
     return $.ajax({
       url: this.url,
       type: 'POST',
