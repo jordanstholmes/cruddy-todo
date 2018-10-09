@@ -59,18 +59,9 @@ exports.readOne = (id, callback) => {
   
 };
 
-exports.update = (id, text, callback) => {
-  // var item = items[id];
-  // if (!item) {
-  //   callback(new Error(`No item with id: ${id}`));
-  // } else {
-  //   items[id] = text;
-  //   callback(null, { id, text });
-  // }
-  
+exports.update = (id, text, callback) => {  
   var todoFilePath = path.join(exports.dataDir, id + '.txt');
   fs.stat(todoFilePath, (err, stats) => {
-    // console.log('STATS OBJECT?', stats);
     if (!err) {
       fs.writeFile(todoFilePath, text, (err) => {
         if (err) {
@@ -82,19 +73,28 @@ exports.update = (id, text, callback) => {
     } else {
       callback(new Error(`No item with id: ${id}`));
     }
-
   });
 };
 
 exports.delete = (id, callback) => {
-  var item = items[id];
-  delete items[id];
-  if (!item) {
-    // report an error if item not found
-    callback(new Error(`No item with id: ${id}`));
-  } else {
-    callback();
-  }
+  var todoFilePath = path.join(exports.dataDir, id + '.txt');
+  fs.unlink(todoFilePath, (err) => {
+    if (err) {
+      callback(new Error(`No item with id: ${id}`));
+    } else {
+      callback();
+    }
+  });
+
+  // var item = items[id];
+  // delete items[id];
+  // if (!item) {
+  //   // report an error if item not found
+  //   callback(new Error(`No item with id: ${id}`));
+  // } else {
+  //   callback();
+  // }
+  
 };
 
 // Config+Initialization code -- DO NOT MODIFY /////////////////////////////////
